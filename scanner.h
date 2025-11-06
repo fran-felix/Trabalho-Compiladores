@@ -2,22 +2,22 @@
 #include "token.h"
 
 
-class Scanner 
-{    
+class Scanner
+{
 public:
-    //Construtor
-    Scanner(string);
+  //Construtor
+  Scanner(string);
 
-    int getLine();
+  int getLine();
 
-    //Método que retorna o próximo token da entrada
-    Token* nextToken();
+  //Método que retorna o próximo token da entrada
+  Token* nextToken();
 
-    //Método para manipular erros
-    void lexicalError(string);
+  //Método para manipular erros
+  void lexicalError(string);
 
-private: 
-    string input;//Armazena o texto de entrada
-    int pos;//Posição atual
-    int line;
+private:
+  string input;//Armazena o texto de entrada
+  int pos;//Posição atual
+  int line;
 };
