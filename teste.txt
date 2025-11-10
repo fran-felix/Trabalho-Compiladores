@@ -1,2 +1,7 @@
-i = 5 + 3;
-j = 4 + 2;
+/*i = 5 + 3;
+j = 4 + 2;*/
+
+class teste {
+int[] a, b;
+int c, b;
+}

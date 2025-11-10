@@ -1,5 +1,4 @@
-#include "scanner.h"
-
+#include "parser.h"
 
 int main(int argc, char* argv[])
 {
@@ -8,26 +7,13 @@ int main(int argc, char* argv[])
   //executado na linha de comando.
   if (argc != 2)
   {
-    cout << "Uso: ./compiler nome_arquivo.xpp\n";
+    cout << "Uso: ./compiler nome_arquivo.mj\n";
     return 1;
   }
 
-  string input;
+  Parser* parser = new Parser(argv[1]);
 
-  //getline(cin, input);
-
-  Scanner* scanner = new Scanner(argv[1]);
-
-  Token* t;
-
-  do
-  {
-    t = scanner->nextToken();
-
-    cout << t->printToken() << " ";
-  } while (t->name != END_OF_FILE);
-
-  delete scanner;
+  parser->run();
 
   return 0;
 }

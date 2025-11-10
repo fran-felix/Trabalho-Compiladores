@@ -60,7 +60,7 @@ public:
 
   // Para usar junto do cout em main.cpp que imprime os tokens identificados
   int
-    printToken()
+  tokenName()
   {
     if (attribute != UNDEF)
       return attribute;
