@@ -5,3 +5,5 @@ class teste {
 int[] a, b;
 int c, b;
 }
+
+class a{}

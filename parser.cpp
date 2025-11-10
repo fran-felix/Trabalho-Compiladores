@@ -38,8 +38,8 @@ Parser::program()
 	//TODO
 	if (/*lToken->name == CLASS*/ lToken->lexeme == "class")
 		classList();
-	else if(lToken->tokenName() != END_OF_FILE)
-		error("Class expected");
+	else if (lToken->tokenName() != END_OF_FILE)
+		error("Keyword 'class' expected");
 }
 
 //Continuar....
@@ -51,9 +51,12 @@ Parser::classList()
 	classDecl();
 	if (lToken->lexeme == "class")
 	{
-		advance();
 		classList();
 	}
+	else if (lToken->tokenName() == END_OF_FILE)
+		;
+	else
+		error("Keyword 'class' expected");
 }
 
 // Tabela de Simbolos necessaria
@@ -117,7 +120,7 @@ Parser::varDecl()
 		}
 		match(ID, "Variable declaration expected after type");
 		varDeclOpt();
-		match(SC, "; expected after declaration");
+		match(SC, "syntax error: missing ';'");
 	}
 }
 
