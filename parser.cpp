@@ -226,7 +226,7 @@ Parser::methodBody()
 	match(RP, "')' expected after parameter list");
 
 	match(LR, "'{' expected after ')'");
-	statementListOpt();
+	//statementListOpt();
 	match(RR, "'}' expected closing method body");
 }
 // END: Method section
@@ -275,6 +275,20 @@ Parser::param()
 // BEGIN: Statement section
 void
 Parser::statementListOpt()
+{
+	if (/*first de Statements = first de Statement*/true)
+		statementList();
+}
+
+void
+Parser::statementList()
+{
+	statement();
+	statementList(); // pode ser um ; entao fica bem simples de implementar
+}
+
+void
+Parser::statement()
 {
 
 }
