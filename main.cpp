@@ -15,5 +15,7 @@ int main(int argc, char* argv[])
 
   parser->run();
 
+  delete parser;
+
   return 0;
 }

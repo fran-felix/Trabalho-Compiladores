@@ -11,6 +11,8 @@ private:
 
 public:
 	Parser(string);
+	~Parser();
+
 	void run();
 	void program();
 
@@ -41,6 +43,14 @@ public:
 	void statementListOpt();
 	void statementList();
 	void statement();
+
+	void atribStat();
+	void printStat();
+	void readStat();
+	void returnStat();
+	void superStat();
+	void ifStat();
+	void forStat();
 
 	void error(string);
 };

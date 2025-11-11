@@ -5,6 +5,11 @@ Parser::Parser(string input)
 	scanner = new Scanner(input);
 }
 
+Parser::~Parser()
+{
+	delete scanner;
+}
+
 void
 Parser::advance()
 {
@@ -226,7 +231,7 @@ Parser::methodBody()
 	match(RP, "')' expected after parameter list");
 
 	match(LR, "'{' expected after ')'");
-	//statementListOpt();
+	statementListOpt();
 	match(RR, "'}' expected closing method body");
 }
 // END: Method section
@@ -273,10 +278,21 @@ Parser::param()
 
 
 // BEGIN: Statement section
+// Tabela de Simbolos necessaria
 void
 Parser::statementListOpt()
 {
-	if (/*first de Statements = first de Statement*/true)
+	if (
+		(lToken->name == ID && (lToken->lexeme == "int" || lToken->lexeme == "string"))
+		|| lToken->lexeme == "print"
+		|| lToken->lexeme == "read"
+		|| lToken->lexeme == "return"
+		|| lToken->lexeme == "super"
+		|| lToken->lexeme == "if"
+		|| lToken->lexeme == "for"
+		|| lToken->lexeme == "break"
+		|| lToken->tokenName() == SC
+		)
 		statementList();
 }
 
@@ -284,14 +300,91 @@ void
 Parser::statementList()
 {
 	statement();
-	statementList(); // pode ser um ; entao fica bem simples de implementar
+	if (
+		(lToken->name == ID && (lToken->lexeme == "int" || lToken->lexeme == "string"))
+		|| lToken->lexeme == "print"
+		|| lToken->lexeme == "read"
+		|| lToken->lexeme == "return"
+		|| lToken->lexeme == "super"
+		|| lToken->lexeme == "if"
+		|| lToken->lexeme == "for"
+		|| lToken->lexeme == "break"
+		|| lToken->tokenName() == SC
+		)
+		statementList();
 }
 
+// Tabela de Simbolos necessaria
 void
 Parser::statement()
 {
-
+	if (lToken->name == ID && (lToken->lexeme == "int" || lToken->lexeme == "string"))
+		varDeclList();
+	else if (lToken->name == ID)
+	{
+		atribStat();
+		match(SC, "';' expected at the end of atribution statement");
+	}
+	else if (lToken->name == ID && lToken->lexeme == "print")
+	{
+		printStat();
+		match(SC, "';' expected at the end of print statement");
+	}
+	else if (lToken->name == ID && lToken->lexeme == "read")
+	{
+		readStat();
+		match(SC, "';' expected at the end of read statement");
+	}
+	else if (lToken->name == ID && lToken->lexeme == "return")
+	{
+		returnStat();
+		match(SC, "';' expected at the end of return statement");
+	}
+	else if (lToken->name == ID && lToken->lexeme == "super")
+	{
+		superStat();
+		match(SC, "';' expected at the end of super statement");
+	}
+	else if (lToken->name == ID && lToken->lexeme == "if")
+		ifStat();
+	else if (lToken->name == ID && lToken->lexeme == "for")
+		forStat();
+	else if (lToken->name == ID && lToken->lexeme == "break")
+	{
+		advance();
+		match(SC, "';' expected at the end of break statement");
+	}
+	else
+		match(SC, "';' expected");
 }
+
+void
+Parser::atribStat()
+{ }
+
+void
+Parser::printStat()
+{ }
+
+void
+Parser::readStat()
+{ }
+
+void
+Parser::returnStat()
+{ }
+
+void
+Parser::superStat()
+{ }
+
+void
+Parser::ifStat()
+{ }
+
+void
+Parser::forStat()
+{ }
 
 // END: Statement section
 

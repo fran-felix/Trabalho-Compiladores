@@ -9,5 +9,12 @@ constructor (int n){}
 
 int teste(int a, string str){}
 string teste2(){}
-int teste3(int[]k){}
+
+int teste3(int[]k)
+{
+int j;
+// j = 0;
+;
+}
+
 }
