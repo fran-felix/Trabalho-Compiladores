@@ -4,6 +4,10 @@ j = 4 + 2;*/
 class teste {
 int[] a, b;
 int c, b;
-}
 
-class a{}
+constructor (int n){}
+
+int teste(int a, string str){}
+string teste2(){}
+int teste3(int[]k){}
+}

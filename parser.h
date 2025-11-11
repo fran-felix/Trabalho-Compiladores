@@ -26,8 +26,21 @@ public:
 	void type();
 
 	void constructDeclListOpt();
-	
+	void constructDeclList();
+	void constructDecl();
+
 	void methodDeclListOpt();
-	
+	void methodDeclList();
+	void methodDecl();
+	void methodBody();
+
+	void paramListOpt();
+	void paramList();
+	void param();
+
+	void statementListOpt();
+	void statementList();
+	void statement();
+
 	void error(string);
 };
