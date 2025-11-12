@@ -358,35 +358,280 @@ Parser::statement()
 		match(SC, "';' expected");
 }
 
+// Tabela de Simbolos necessaria
 void
 Parser::atribStat()
-{ }
+{ 
+	lValue();
+	match(AS, "'=' operator expected");
+	if (lToken->tokenName() == AN || lToken->tokenName() == SN)
+		expression();
+	else if (lToken->name == ID && lToken->lexeme == "new")
+		allocExpression();
+	else
+		error("attribuition statement malformed");
+}
 
+// Tabela de Simbolos necessaria
 void
 Parser::printStat()
-{ }
+{
+	if (lToken->name == ID && lToken->lexeme == "print")
+	{
+		advance();
+		expression();
+	}
+}
 
+// Tabela de Simbolos necessaria
 void
 Parser::readStat()
-{ }
+{ 
+	if (lToken->name == ID && lToken->lexeme == "read")
+	{
+		advance();
+		lValue();
+	}
+}
 
+// Tabela de Simbolos necessaria
 void
 Parser::returnStat()
-{ }
+{ 
+	if (lToken->name == ID && lToken->lexeme == "return")
+	{
+		advance();
+		expression();
+	}
+}
 
+// Tabela de Simbolos necessaria
 void
 Parser::superStat()
-{ }
+{ 
+	if (lToken->name == ID && lToken->lexeme == "super")
+	{
+		advance();
+		match(LP, "'(' expected after 'super'");
+		argListOpt();
+		match(RP, "')' expected");
+	}
+}
 
+// Tabela de Simbolos necessaria
 void
 Parser::ifStat()
-{ }
+{ 
+	if (lToken->name == ID && lToken->lexeme == "if")
+	{
+		advance();
+		match(LP, "'(' expected after 'if' statement");
+		expression();
+		match(RP, "')' expected closing 'if' statement");
+		match(LP, "'{' expected after 'if' block");
+		statementList();
+		match(RP, "'}' expected closing 'if' block");
+		if (lToken->name == ID && lToken->lexeme == "else")
+		{
+			match(LP, "'{' expected after 'if' block");
+			statementList();
+			match(RP, "'}' expected closing 'if' block");
+		}
+	}
+}
 
 void
 Parser::forStat()
-{ }
-
+{ 
+	if (lToken->name == ID && lToken->lexeme == "for")
+	{
+		advance();
+		match(LP, "'(' expected after 'for' statement");
+		atribStatOpt();
+		match(SC, "';' expected after loop variable");
+		expressionOpt();
+		match(SC, "';' expected after loop expression");
+		atribStatOpt();
+		match(RP, "')' expected closing 'for' statement");
+		match(LP, "'{' expected after 'if' block");
+		statementList();
+		match(RP, "'}' expected closing 'if' block");
+	}
+}
 // END: Statement section
+
+
+// BEGIN: Last section
+
+void
+Parser::atribStatOpt()
+{
+	if (lToken->name == ID)
+		atribStat();
+}
+
+void
+Parser::expressionOpt()
+{
+	if (lToken->tokenName() == AN || lToken->tokenName() == SN)
+		expression();
+}
+
+void
+Parser::lValue()
+{
+	if (lToken->name == ID)
+	{
+		advance();
+		lValueComp();
+	}
+	else
+		error("lvalue expected");
+}
+
+void
+Parser::lValueComp()
+{
+	if (lToken->tokenName() == P)
+	{
+		advance();
+		match(ID, "identifier name expected after '.'");
+		if (lToken->tokenName() == LB)
+		{
+			advance();
+			expression();
+			match(RB, "']' expected");
+		}
+		else if (lToken->tokenName() == LP)
+		{
+			advance();
+			argListOpt();
+			match(RP, "')' expected");
+		}
+	else if (lToken->tokenName() == LB)
+	{
+		advance();
+		expression();
+		match(RB, "']' expected");
+	}
+		lValueComp();
+	}
+}
+
+void
+Parser::expression()
+{
+	numExpression();
+	if (lToken->name == OP)
+	{
+		match(OP, "relational operator expected");
+		numExpression();
+	}
+}
+
+// Tabela de Simbolos necessaria
+void
+Parser::allocExpression()
+{
+	if (lToken->name == ID && lToken->lexeme == "new")
+	{
+		advance();
+		match(ID, "'new' statement incomplete");
+		match(LP, "'(' expected after 'new' statement");
+		argListOpt();
+		match(RP, "')' expected closing 'new' statement");
+	}
+	else if (lToken->name == ID && (lToken->lexeme == "int" || lToken->lexeme == "string"))
+	{
+		type();
+		match(LB, "'[' expected");
+		expression();
+		match(RB, "']' expected");
+	}
+}
+
+void
+Parser::numExpression()
+{
+	term();
+	if (lToken->tokenName() == AN)
+	{
+		advance();
+		term();
+	}
+	else if (lToken->tokenName() == SN)
+	{
+		advance();
+		term();
+	}
+}
+
+void
+Parser::term()
+{
+	unaryExpression();
+	if (lToken->tokenName() == MN)
+	{
+		advance();
+		unaryExpression();
+	}
+	else if (lToken->tokenName() == DN)
+	{
+		advance();
+		unaryExpression();
+	}
+	else if (lToken->tokenName() == RN)
+	{
+		advance();
+		unaryExpression();
+	}
+}
+
+void
+Parser::unaryExpression()
+{
+	if (lToken->tokenName() == AN)
+	{
+		advance();
+		factor();
+	}
+	else if (lToken->tokenName() == SN)
+	{
+		advance();
+		factor();
+	}
+}
+
+void
+Parser::factor()
+{
+	if (lToken->name == INT)
+		advance();
+	else if (lToken->name == STRING)
+		advance();
+	else if (lToken->tokenName() == LP)
+	{
+		advance();
+		expression();
+		match(RP, "')' expected (factor)");
+	}
+	else
+		lValue();
+}
+
+void
+Parser::argListOpt()
+{
+	expression();
+	if (lToken->tokenName() == C)
+	{
+		advance();
+		expression();
+		argList();
+	}
+}
+
+// END: Last section
 
 void
 Parser::error(string str)

@@ -52,5 +52,20 @@ public:
 	void ifStat();
 	void forStat();
 
+	void atribStatOpt();
+	void expressionOpt();
+
+	void lValue();
+	void lValueComp();
+	void expression();
+	void allocExpression();
+	void numExpression();
+	void term();
+	void unaryExpression();
+	void factor();
+
+	void argListOpt();
+	void argList();
+
 	void error(string);
 };
