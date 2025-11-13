@@ -90,19 +90,19 @@ Scanner::nextToken()
       }
       else if (input[pos] == '-') // Estado 41
       {
-        tok = new Token(SEP, SN);
+        tok = new Token(OP, SN);
         pos++;
         return tok;
       }
       else if (input[pos] == '*') // Estado 42
       {
-        tok = new Token(SEP, MN);
+        tok = new Token(OP, MN);
         pos++;
         return tok;
       }
       else if (input[pos] == '%') // Estado 44
       {
-        tok = new Token(SEP, RN);
+        tok = new Token(OP, RN);
         pos++;
         return tok;
       }
@@ -236,6 +236,7 @@ Scanner::nextToken()
       else
       {
         state = 0;
+        line++;
         pos++;
       }
 
@@ -245,6 +246,11 @@ Scanner::nextToken()
       if (input[pos] == '*') // Possivel fim de comentario de multiplas linhas
       {
         state = 14;
+        pos++;
+      }
+      else if (input[pos] == '\n')
+      {
+        line++;
         pos++;
       }
       else
@@ -278,12 +284,12 @@ Scanner::nextToken()
       if (input[pos] == '=')
       {
         pos++;
-        tok = new Token(OP, LE);
+        tok = new Token(RELOP, LE);
         return tok;
       }
       else
       {
-        tok = new Token(OP, LT);
+        tok = new Token(RELOP, LT);
         return tok;
       }
 
@@ -293,12 +299,12 @@ Scanner::nextToken()
       if (input[pos] == '=')
       {
         pos++;
-        tok = new Token(OP, GE);
+        tok = new Token(RELOP, GE);
         return tok;
       }
       else
       {
-        tok = new Token(OP, GT);
+        tok = new Token(RELOP, GT);
         return tok;
       }
 
@@ -307,9 +313,8 @@ Scanner::nextToken()
     case 35:
       if (input[pos] == '=')
       {
-        printf("cu");
         pos++;
-        tok = new Token(OP, EQ);
+        tok = new Token(RELOP, EQ);
         return tok;
       }
       else
@@ -324,7 +329,7 @@ Scanner::nextToken()
       if (input[pos] == '=')
       {
         pos++;
-        tok = new Token(OP, NE);
+        tok = new Token(RELOP, NE);
         return tok;
       }
       else

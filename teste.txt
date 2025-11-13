@@ -5,16 +5,50 @@ class teste {
 int[] a, b;
 int c, b;
 
-constructor (int n){}
+constructor ()
+{
 
-int teste(int a, string str){}
-string teste2(){}
+if(i < j)
+{i = j;}else{if(a[i]==s){;};}
 
-int teste3(int[]k)
+for(;;){;}
+for(j = 1;;){;}
+for(;k>m;){;}
+for(;;k = k - 1){;}
+for(i = 0; i < n; i = i + 1)
+{
+j = j[i] * k;
+i = j + i[i];
+i = i % j;
+}
+
+}
+
+constructor (int n)
+{
+int i, j, k;
+string h;
+string[] l, o;
+//z = x + y * y / j % s + 22/123;
+i = 0;
+j = -3;
+k[2] = i[k] + j[k];
+i[k] = -2;
+}
+
+int teste(int a, string str){int i; i = 2; return (a + i);}
+string teste2()
+{
+  read j;
+}
+
+int printArray(int[]k, int n)
 {
 int j;
-// j = 0;
-;
+for(j = 0; j < n; j = j + 1)
+{
+  print k[j];
+}
 }
 
 }

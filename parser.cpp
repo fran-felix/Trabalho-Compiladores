@@ -20,7 +20,7 @@ void
 Parser::match(int t, string str)
 {
 	//if (lToken->name == t || lToken->attribute == t)
-	if (lToken->tokenName() == t)
+	if (lToken->tokenName() == t || lToken->name == t)
 		advance();
 	else
 		error(str);
@@ -43,8 +43,6 @@ Parser::program()
 	//TODO
 	if (/*lToken->name == CLASS*/ lToken->lexeme == "class")
 		classList();
-	else if (lToken->tokenName() != END_OF_FILE)
-		error("Keyword 'class' expected");
 }
 
 
@@ -296,12 +294,14 @@ Parser::statementListOpt()
 		statementList();
 }
 
+// Tabela de Simbolos necessaria
 void
 Parser::statementList()
 {
 	statement();
 	if (
-		(lToken->name == ID && (lToken->lexeme == "int" || lToken->lexeme == "string"))
+		(lToken->name == ID && (lToken->lexeme == "int" || lToken->lexeme == "string")) // palavra reservada de tipo (declaracao)
+		|| lToken->name == ID // nome de variavel (atribuicao)
 		|| lToken->lexeme == "print"
 		|| lToken->lexeme == "read"
 		|| lToken->lexeme == "return"
@@ -320,11 +320,6 @@ Parser::statement()
 {
 	if (lToken->name == ID && (lToken->lexeme == "int" || lToken->lexeme == "string"))
 		varDeclList();
-	else if (lToken->name == ID)
-	{
-		atribStat();
-		match(SC, "';' expected at the end of atribution statement");
-	}
 	else if (lToken->name == ID && lToken->lexeme == "print")
 	{
 		printStat();
@@ -354,6 +349,11 @@ Parser::statement()
 		advance();
 		match(SC, "';' expected at the end of break statement");
 	}
+	else if (lToken->name == ID)
+	{
+		atribStat();
+		match(SC, "';' expected at the end of atribution statement");
+	}
 	else
 		match(SC, "';' expected");
 }
@@ -364,7 +364,12 @@ Parser::atribStat()
 { 
 	lValue();
 	match(AS, "'=' operator expected");
-	if (lToken->tokenName() == AN || lToken->tokenName() == SN)
+	if (lToken->tokenName() == AN
+		|| lToken->tokenName() == SN
+		|| (lToken->name == INT)	// First de Factor vvv
+		|| (lToken->name == STRING)
+		|| lToken->tokenName() == LP
+		|| lToken->name == ID)
 		expression();
 	else if (lToken->name == ID && lToken->lexeme == "new")
 		allocExpression();
@@ -428,14 +433,15 @@ Parser::ifStat()
 		match(LP, "'(' expected after 'if' statement");
 		expression();
 		match(RP, "')' expected closing 'if' statement");
-		match(LP, "'{' expected after 'if' block");
+		match(LR, "'{' expected after 'if' block");
 		statementList();
-		match(RP, "'}' expected closing 'if' block");
+		match(RR, "'}' expected closing 'if' block");
 		if (lToken->name == ID && lToken->lexeme == "else")
 		{
-			match(LP, "'{' expected after 'if' block");
+			advance();
+			match(LR, "'{' expected after 'else' statement");
 			statementList();
-			match(RP, "'}' expected closing 'if' block");
+			match(RR, "'}' expected closing 'else' block");
 		}
 	}
 }
@@ -453,9 +459,9 @@ Parser::forStat()
 		match(SC, "';' expected after loop expression");
 		atribStatOpt();
 		match(RP, "')' expected closing 'for' statement");
-		match(LP, "'{' expected after 'if' block");
+		match(LR, "'{' expected after 'if' block");
 		statementList();
-		match(RP, "'}' expected closing 'if' block");
+		match(RR, "'}' expected closing 'if' block");
 	}
 }
 // END: Statement section
@@ -473,7 +479,12 @@ Parser::atribStatOpt()
 void
 Parser::expressionOpt()
 {
-	if (lToken->tokenName() == AN || lToken->tokenName() == SN)
+	if (lToken->tokenName() == AN
+		|| lToken->tokenName() == SN
+		|| (lToken->name == INT)	// First de Factor vvv
+		|| (lToken->name == STRING)
+		|| lToken->tokenName() == LP
+		|| lToken->name == ID)
 		expression();
 }
 
@@ -508,12 +519,13 @@ Parser::lValueComp()
 			argListOpt();
 			match(RP, "')' expected");
 		}
+		lValueComp();
+	}
 	else if (lToken->tokenName() == LB)
 	{
 		advance();
 		expression();
 		match(RB, "']' expected");
-	}
 		lValueComp();
 	}
 }
@@ -522,9 +534,9 @@ void
 Parser::expression()
 {
 	numExpression();
-	if (lToken->name == OP)
+	if (lToken->name == RELOP) // Relop. Nao quis criar outro indice pra relop. Deixei tudo como op mesmo
 	{
-		match(OP, "relational operator expected");
+		match(RELOP, "relational operator expected");
 		numExpression();
 	}
 }
@@ -600,6 +612,8 @@ Parser::unaryExpression()
 		advance();
 		factor();
 	}
+	else
+		factor();
 }
 
 void
@@ -621,6 +635,13 @@ Parser::factor()
 
 void
 Parser::argListOpt()
+{
+	if (lToken->tokenName() == AN || lToken->tokenName() == SN)
+		argList();
+}
+
+void
+Parser::argList()
 {
 	expression();
 	if (lToken->tokenName() == C)

@@ -12,30 +12,31 @@ enum Names
   INT, // 2
   STRING, // 3
   // Nao precisa pra comentario, precisa?
-  OP, // 4 - Operator
+  RELOP, // 4 - Relational Operator
   LE, // 5 - Lesser or equal
   LT, // 6 - Lesser than
   GE, // 7 - Greater or equal
   GT, // 8 - Greater than
   EQ, // 9 - Equal to
-  AS, // 10 - Assignment
-  NE, // 11 - Not equal to
-  AN, // 12 - Addition
-  SN, // 13 - Subtraction
-  MN, // 14 - Multiplication
-  DN, // 15 - Division
-  RN, // 16 - Remainder
-  SEP, // 17 - Separator
-  LP, // 18 - Left Parentheses
-  RP, // 19 - Right Parentheses
-  LB, // 20 - Left Bracket
-  RB, // 21 - Right Bracket
-  LR, // 22 - Left Brace
-  RR, // 23 - Right Brace
-  SC, // 24 - Semi-colon
-  P, // 25 - Period
-  C, // 26 - Comma
-  END_OF_FILE // 27
+  NE, // 10 - Not equal to
+  OP, // 11 - Operator
+  AS, // 12 - Assignment
+  AN, // 13 - Addition
+  SN, // 14 - Subtraction
+  MN, // 15 - Multiplication
+  DN, // 16 - Division
+  RN, // 17 - Remainder
+  SEP, // 18 - Separator
+  LP, // 19 - Left Parentheses
+  RP, // 20 - Right Parentheses
+  LB, // 21 - Left Bracket
+  RB, // 22 - Right Bracket
+  LR, // 23 - Left Brace
+  RR, // 24 - Right Brace
+  SC, // 25 - Semi-colon
+  P, // 26 - Period
+  C, // 27 - Comma
+  END_OF_FILE // 28 - EOF
 };
 
 class Token
