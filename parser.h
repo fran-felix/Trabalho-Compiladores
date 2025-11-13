@@ -1,13 +1,22 @@
+#ifndef __Parser_h
+#define __Parser_h
+
+
 #include "scanner.h"
+
 
 class Parser
 {
 private:
 	Scanner* scanner;
 	Token* lToken{nullptr};
+	SymbolTable* globalST;
+	SymbolTable* currentST;
+	STEntry* entry;
 
 	void advance();
 	void match(int, string);
+	void initSymbolTable();
 
 public:
 	Parser(string);
@@ -69,3 +78,6 @@ public:
 
 	void error(string);
 };
+
+
+#endif // __Parser_h

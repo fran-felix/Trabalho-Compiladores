@@ -125,12 +125,16 @@
   <ItemGroup>
     <ClInclude Include="parser.h" />
     <ClInclude Include="scanner.h" />
+    <ClInclude Include="stentry.h" />
+    <ClInclude Include="symboltable.h" />
     <ClInclude Include="token.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="parser.cpp" />
     <ClCompile Include="scanner.cpp" />
+    <ClCompile Include="stentry.cpp" />
+    <ClCompile Include="symboltable.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="teste.txt" />

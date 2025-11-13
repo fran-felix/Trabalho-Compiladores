@@ -24,6 +24,12 @@
     <ClInclude Include="parser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="stentry.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="symboltable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="scanner.cpp">
@@ -33,6 +39,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stentry.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="symboltable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -3,13 +3,12 @@
 
 //Construtor que recebe uma string com o nome do arquivo 
 //de entrada e preenche input com seu conteúdo.
-Scanner::Scanner(string input)
+Scanner::Scanner(string input, SymbolTable* table)
 {
-  /*this->input = input;
-  cout << "Entrada: " << input << endl << "Tamanho: "
-       << input.length() << endl;*/
   pos = 0;
   line = 1;
+
+  st = table;
 
   ifstream inputFile(input, ios::in);
   string line;
@@ -28,7 +27,7 @@ Scanner::Scanner(string input)
   //A próxima linha deve ser comentada posteriormente.
   //Ela é utilizada apenas para verificar se o 
   //preenchimento de input foi feito corretamente.
-  cout << this->input;
+  // cout << this->input;
 
 }
 
@@ -45,6 +44,7 @@ Scanner::nextToken()
   Token* tok;
   string lexeme;
   int state{0}; // Estado inicial
+  STEntry* obj;
 
   while (true)
   {
@@ -177,11 +177,16 @@ Scanner::nextToken()
 
       break;
 
-    case 2:
-      tok = new Token(ID, lexeme);
+    case 2: // Decide entre ID e Palavra Reservada
+      obj = st->get(lexeme);
+      if (!obj)
+        tok = new Token(ID, lexeme); // Certeza que eh um ID *NOVO*
+      else
+        tok = new Token(obj->token->name, obj->token->attribute, obj->token->lexeme); // ID ja definido ou Palavra Reservada
+
       return tok;
 
-    case 4:  // Identificadao de um INT
+    case 4:  // Identificacao de um INT
       if (isdigit(input[pos]))
       {
         lexeme.push_back(input[pos]);

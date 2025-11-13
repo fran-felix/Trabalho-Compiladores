@@ -1,12 +1,17 @@
+#ifndef __Scanner_h
+#define __Scanner_h
+
+
 #include <fstream>
 #include "token.h"
+#include "symboltable.h"
 
 
 class Scanner
 {
 public:
   //Construtor
-  Scanner(string);
+  Scanner(string, SymbolTable*);
 
   int getLine();
 
@@ -20,4 +25,8 @@ private:
   string input;//Armazena o texto de entrada
   int pos;//Posição atual
   int line;
+  SymbolTable* st;
 };
+
+
+#endif // __Scanner_h

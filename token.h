@@ -1,3 +1,6 @@
+#ifndef __Token_h
+#define __Token_h
+
 #include <iostream>
 #include <ctype.h>//Funções de caracteres
 #include <string>
@@ -36,7 +39,23 @@ enum Names
   SC, // 25 - Semi-colon
   P, // 26 - Period
   C, // 27 - Comma
-  END_OF_FILE // 28 - EOF
+  END_OF_FILE, // 28 - EOF
+  // Palavras reservadas vvv
+  CLASS, // 29
+  EXTENDS, // 30
+  CONSTRUCTOR, // 31
+  BREAK, // 32
+  PRINT, // 33
+  READ, // 34
+  RETURN, // 35
+  SUPER, // 36
+  IF, // 37
+  ELSE, // 38
+  FOR, // 39
+  NEW, // 40
+  TYPE, // 41 Generic type created by the user
+  INT_TYPE, // 42
+  STRING_TYPE // 43
 };
 
 class Token
@@ -59,6 +78,11 @@ public:
   {
   }
 
+  Token(int name, int attr, string l) : name{name}, attribute{attr}
+  {
+    lexeme = l;
+  }
+
   // Para usar junto do cout em main.cpp que imprime os tokens identificados
   int
   tokenName()
@@ -68,3 +92,6 @@ public:
     return name;
   }
 };
+
+
+#endif // __Token_h
