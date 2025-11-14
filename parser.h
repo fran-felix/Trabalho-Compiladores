@@ -26,7 +26,6 @@ public:
 	void program();
 
 	void classList();
-	//Continuar....
 	void classDecl();
 	void classBody();
 	

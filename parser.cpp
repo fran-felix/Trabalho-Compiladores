@@ -12,7 +12,6 @@ Parser::~Parser()
 {
 	delete scanner;
 	delete globalST;
-	delete currentST;
 	delete entry;
 }
 

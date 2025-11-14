@@ -51,6 +51,7 @@ int printArray(int[]k, int n)
 int j;
 for(j = 0; j < n; j = j + 1)
 {
+  int z;
   print k[j];
   z = 0;
 }

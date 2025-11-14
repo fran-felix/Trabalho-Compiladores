@@ -7,7 +7,7 @@ int main(int argc, char* argv[])
   //executado na linha de comando.
   if (argc != 2)
   {
-    cout << "Uso: ./compiler nome_arquivo.mj\n";
+    cout << "Uso: ./compiler nome_arquivo.xpp\n";
     return 1;
   }
 
