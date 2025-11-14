@@ -682,6 +682,7 @@ Parser::term()
 void
 Parser::unaryExpression()
 {
+	factor();
 	if (lToken->tokenName() == AN)
 	{
 		advance();
@@ -692,8 +693,6 @@ Parser::unaryExpression()
 		advance();
 		factor();
 	}
-	else
-		factor();
 }
 
 void

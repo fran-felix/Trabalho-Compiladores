@@ -9,6 +9,8 @@ int c;
 constructor (int n)
 {
 n = new int();
+
+n = n * n + n * n;
 }
 constructor ()
 {
